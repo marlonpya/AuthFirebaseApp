@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Grafo de navegación de la app.
+    - Destino inicial: LoginFragment.
+    - Acción Login -> Home: al autenticarse, limpia el back stack (popUpTo login inclusive)
+      para que el botón "atrás" NO regrese a la pantalla de login.
+    - Acción Home -> Login: al cerrar sesión, vuelve a login limpiando todo el back stack.
+    Safe Args genera a partir de estas acciones las clases LoginFragmentDirections y HomeFragmentDirections.
+-->
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.microsol.authfirebaseapp.ui.login.LoginFragment"
+        android:label="@string/login_titulo"
+        tools:layout="@layout/fragment_login">
+
+        <action
+            android:id="@+id/action_login_to_home"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.microsol.authfirebaseapp.ui.home.HomeFragment"
+        android:label="@string/home_titulo"
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_home_to_login"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+</navigation>

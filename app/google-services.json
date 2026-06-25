@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "936081764846",
+    "project_id": "authfirebaseapp-47ede",
+    "storage_bucket": "authfirebaseapp-47ede.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:936081764846:android:b9f73418549921cf68deff",
+        "android_client_info": {
+          "package_name": "com.microsol.authfirebaseapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "936081764846-hgpqil035l7cmrtkl6c54merlpgj4d6l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.microsol.authfirebaseapp",
+            "certificate_hash": "f048e96509fc8e2c24f809fb9c92e7971f5a571e"
+          }
+        },
+        {
+          "client_id": "936081764846-lptbm45gtgtdnc49ii6mdjjdaq8kok48.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlMtvp6vEWEK9vqZoqaOGnVWQG0WlbRg0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "936081764846-lptbm45gtgtdnc49ii6mdjjdaq8kok48.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

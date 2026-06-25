@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">AppAutenticacionFirebase</string>
+
+    <!-- Pantalla de Login -->
+    <string name="login_titulo">Autenticación con Firebase</string>
+    <string name="login_hint_correo">Correo electrónico</string>
+    <string name="login_hint_password">Contraseña</string>
+    <string name="login_boton_ingresar">Ingresar</string>
+    <string name="login_boton_registrarse">Registrarse</string>
+    <string name="login_boton_google">Iniciar sesión con Google</string>
+    <string name="login_separador">o</string>
+
+    <!-- Pantalla de Home -->
+    <string name="home_titulo">Sesión iniciada</string>
+    <string name="home_label_nombre">Nombre:</string>
+    <string name="home_label_correo">Correo:</string>
+    <string name="home_boton_cerrar_sesion">Cerrar sesión</string>
+    <string name="home_foto_descripcion">Foto de perfil del usuario</string>
+
+    <!-- Mensajes -->
+    <string name="msg_completa_campos">Ingresa correo y contraseña</string>
+    <string name="msg_login_correcto">Bienvenido</string>
+    <string name="msg_registro_correcto">Cuenta creada correctamente</string>
+    <string name="msg_google_cancelado">Inicio de sesión con Google cancelado</string>
+    <string name="msg_error_generico">Ocurrió un error</string>
+    <string name="msg_sin_nombre">Sin nombre</string>
+    <string name="msg_sin_correo">Sin correo</string>
+</resources>
