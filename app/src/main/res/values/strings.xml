@@ -16,6 +16,7 @@
     <string name="home_label_correo">Correo:</string>
     <string name="home_boton_cerrar_sesion">Cerrar sesión</string>
     <string name="home_foto_descripcion">Foto de perfil del usuario</string>
+    <string name="home_boton_ver_cursos">Ver mis cursos</string>
 
     <!-- Mensajes -->
     <string name="msg_completa_campos">Ingresa correo y contraseña</string>
@@ -25,4 +26,41 @@
     <string name="msg_error_generico">Ocurrió un error</string>
     <string name="msg_sin_nombre">Sin nombre</string>
     <string name="msg_sin_correo">Sin correo</string>
+
+    <!-- Pantalla de Cursos (catálogo global, Firestore, con CRUD completo) -->
+    <string name="cursos_titulo">Cursos</string>
+    <string name="cursos_vacio">Todavía no hay cursos disponibles</string>
+    <string name="cursos_fab_nuevo_descripcion">Nuevo curso</string>
+    <string name="cursos_accion_editar">Editar curso</string>
+    <string name="cursos_accion_eliminar">Eliminar curso</string>
+    <string name="cursos_eliminar_titulo">Eliminar curso</string>
+    <string name="cursos_eliminar_mensaje">¿Seguro que quieres eliminar \"%1$s\"? También se eliminarán sus tareas. Esta acción no se puede deshacer.</string>
+    <string name="cursos_eliminar_confirmar">Eliminar</string>
+    <string name="cursos_eliminar_cancelar">Cancelar</string>
+
+    <!-- Formulario de crear/editar curso -->
+    <string name="curso_form_titulo_nuevo">Nuevo curso</string>
+    <string name="curso_form_titulo_editar">Editar curso</string>
+    <string name="curso_form_hint_nombre">Nombre del curso</string>
+    <string name="curso_form_hint_descripcion">Descripción</string>
+    <string name="curso_form_boton_guardar">Guardar</string>
+
+    <!-- Pantalla de Tareas (Firestore, filtradas por cursoId, con CRUD completo) -->
+    <string name="tareas_titulo">Tareas</string>
+    <string name="tareas_vacio">Este curso todavía no tiene tareas</string>
+    <string name="tareas_fecha_limite">Fecha límite: %1$s</string>
+    <string name="tareas_fab_nueva_descripcion">Nueva tarea</string>
+    <string name="tareas_accion_editar">Editar tarea</string>
+    <string name="tareas_accion_eliminar">Eliminar tarea</string>
+    <string name="tareas_eliminar_titulo">Eliminar tarea</string>
+    <string name="tareas_eliminar_mensaje">¿Seguro que quieres eliminar \"%1$s\"? Esta acción no se puede deshacer.</string>
+    <string name="tareas_eliminar_confirmar">Eliminar</string>
+    <string name="tareas_eliminar_cancelar">Cancelar</string>
+
+    <!-- Formulario de crear/editar tarea -->
+    <string name="tarea_form_titulo_nuevo">Nueva tarea</string>
+    <string name="tarea_form_titulo_editar">Editar tarea</string>
+    <string name="tarea_form_hint_titulo">Título de la tarea</string>
+    <string name="tarea_form_hint_fecha_limite">Fecha límite</string>
+    <string name="tarea_form_boton_guardar">Guardar</string>
 </resources>

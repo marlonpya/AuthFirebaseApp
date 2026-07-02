@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
     Grafo de navegación de la app.
     - Destino inicial: LoginFragment.
     - Acción Login -> Home: al autenticarse, limpia el back stack (popUpTo login inclusive)
@@ -37,6 +36,89 @@
             app:destination="@id/loginFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_home_to_cursos"
+            app:destination="@id/cursosFragment" />
+    </fragment>
+
+    <!--
+        Feature de Cursos/Tareas: única parte de la app en capas (MVVM + Repository, ver
+        domain/, data/ y presentation/). Login/Home siguen planos a propósito.
+    -->
+    <fragment
+        android:id="@+id/cursosFragment"
+        android:name="com.microsol.authfirebaseapp.presentation.cursos.CursosFragment"
+        android:label="@string/cursos_titulo"
+        tools:layout="@layout/fragment_cursos">
+
+        <action
+            android:id="@+id/action_cursos_to_tareas"
+            app:destination="@id/tareasFragment" />
+
+        <action
+            android:id="@+id/action_cursos_to_form"
+            app:destination="@id/cursoFormFragment" />
+    </fragment>
+
+    <!-- Crear/editar curso: cursoId vacío = creación, no vacío = edición (ver CursoFormFragment). -->
+    <fragment
+        android:id="@+id/cursoFormFragment"
+        android:name="com.microsol.authfirebaseapp.presentation.cursos.form.CursoFormFragment"
+        android:label="@string/curso_form_titulo_nuevo"
+        tools:layout="@layout/fragment_curso_form">
+
+        <argument
+            android:name="cursoId"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="nombre"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="descripcion"
+            android:defaultValue=""
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/tareasFragment"
+        android:name="com.microsol.authfirebaseapp.presentation.tareas.TareasFragment"
+        android:label="@string/tareas_titulo"
+        tools:layout="@layout/fragment_tareas">
+
+        <argument
+            android:name="cursoId"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_tareas_to_form"
+            app:destination="@id/tareaFormFragment" />
+    </fragment>
+
+    <!-- Crear/editar tarea: tareaId vacío = creación, no vacío = edición (ver TareaFormFragment). -->
+    <fragment
+        android:id="@+id/tareaFormFragment"
+        android:name="com.microsol.authfirebaseapp.presentation.tareas.form.TareaFormFragment"
+        android:label="@string/tarea_form_titulo_nuevo"
+        tools:layout="@layout/fragment_tarea_form">
+
+        <argument
+            android:name="cursoId"
+            app:argType="string" />
+        <argument
+            android:name="tareaId"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="titulo"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="fechaLimite"
+            android:defaultValue="-1L"
+            app:argType="long" />
     </fragment>
 
 </navigation>

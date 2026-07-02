@@ -56,6 +56,8 @@ dependencies {
     // Firebase Authentication. El BoM (platform) fija la versión de firebase-auth.
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
+    // Firestore: base de datos del feature de Cursos/Tareas (misma versión fijada por el BoM).
+    implementation(libs.firebase.firestore)
 
     // Credential Manager + Sign in with Google (API vigente que recomienda Firebase).
     implementation(libs.androidx.credentials)
@@ -64,9 +66,16 @@ dependencies {
 
     // Corrutinas: requeridas por las llamadas suspend de Credential Manager.
     implementation(libs.kotlinx.coroutines.android)
+    // Corrutinas + Firestore: habilita Task<T>.await() en los repositorios de Cursos/Tareas.
+    implementation(libs.kotlinx.coroutines.play.services)
 
     // Coil: carga la foto de perfil (URL remota) dentro de un ImageView.
     implementation(libs.coil)
+
+    // RecyclerView + ViewModel: usados por la feature de Cursos/Tareas (MVVM + StateFlow).
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)

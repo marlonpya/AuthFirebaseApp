@@ -42,6 +42,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         mostrarDatosUsuario()
         binding.botonCerrarSesion.setOnClickListener { cerrarSesion() }
+        binding.botonVerCursos.setOnClickListener { irACursos() }
     }
 
     /** Lee el usuario actual de Firebase y pinta su nombre, correo y foto en pantalla. */
@@ -82,6 +83,12 @@ class HomeFragment : Fragment() {
     /** Navega de vuelta a Login usando la acción de Safe Args (limpia el back stack). */
     private fun irALogin() {
         val accion = HomeFragmentDirections.actionHomeToLogin()
+        findNavController().navigate(accion)
+    }
+
+    /** Navega al feature de Cursos/Tareas (Firestore, en capas MVVM + Repository). */
+    private fun irACursos() {
+        val accion = HomeFragmentDirections.actionHomeToCursos()
         findNavController().navigate(accion)
     }
 
