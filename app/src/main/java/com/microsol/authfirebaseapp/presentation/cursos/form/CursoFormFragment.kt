@@ -14,7 +14,6 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.microsol.authfirebaseapp.R
 import com.microsol.authfirebaseapp.databinding.FragmentCursoFormBinding
-import com.microsol.authfirebaseapp.presentation.cursos.CursoFormFragmentArgs
 import kotlinx.coroutines.launch
 
 /**
