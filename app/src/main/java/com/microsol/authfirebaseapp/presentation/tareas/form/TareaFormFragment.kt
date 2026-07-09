@@ -5,6 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.ImageView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -12,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import coil.load
 import com.google.android.material.snackbar.Snackbar
 import com.microsol.authfirebaseapp.R
 import com.microsol.authfirebaseapp.databinding.FragmentTareaFormBinding
@@ -23,8 +29,11 @@ import java.util.Locale
 
 /**
  * Formulario de crear/editar una tarea de un curso. Si [args].tareaId llega vacío es modo
- * creación; si no, modo edición (título/fecha se prellenan con lo que ya trae TareasAdapter, sin
- * otra lectura a Firestore). Al guardar exitosamente, vuelve a TareasFragment con popBackStack().
+ * creación; si no, modo edición (título/fecha/fotos se prellenan con lo que ya trae
+ * TareasAdapter, sin otra lectura a Firestore). Hasta 3 fotos por tarea, elegidas con el Photo
+ * Picker del sistema: se muestran como vista previa local y solo se suben a Storage al tocar
+ * "Guardar" (ver TareaFormViewModel.guardar). Al guardar exitosamente, vuelve a TareasFragment
+ * con popBackStack().
  */
 class TareaFormFragment : Fragment() {
 
@@ -39,6 +48,17 @@ class TareaFormFragment : Fragment() {
 
     private var fechaLimiteSeleccionada: Long? = null
     private val formatoFecha = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
+    // Estado local de las 3 casillas de foto: no se sube nada hasta que se toca "Guardar".
+    private val slots = MutableList<FotoSlot>(NUMERO_CASILLAS) { FotoSlot.Vacio }
+    private val urlsOriginales: List<String> by lazy { args.imagenesUrls?.toList() ?: emptyList() }
+    private lateinit var vistasFoto: List<Triple<ImageView, ImageButton, ActivityResultLauncher<PickVisualMediaRequest>>>
+
+    // Deben registrarse como inicializadores de campo (no dentro de onViewCreated): Activity
+    // Result API exige registrar el launcher antes de que el Fragment llegue a STARTED.
+    private val selectorFoto1 = registrarSelectorFoto(0)
+    private val selectorFoto2 = registrarSelectorFoto(1)
+    private val selectorFoto3 = registrarSelectorFoto(2)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,12 +85,60 @@ class TareaFormFragment : Fragment() {
         binding.editFechaLimite.setOnClickListener { mostrarSelectorFecha() }
         binding.inputFechaLimite.setEndIconOnClickListener { mostrarSelectorFecha() }
 
+        configurarCasillasFoto()
+
         binding.botonGuardar.setOnClickListener {
             val titulo = binding.editTitulo.text?.toString()?.trim().orEmpty()
-            viewModel.guardar(titulo, fechaLimiteSeleccionada)
+            viewModel.guardar(titulo, fechaLimiteSeleccionada, slots.toList(), urlsOriginales)
         }
 
         observarEstado()
+    }
+
+    private fun configurarCasillasFoto() {
+        vistasFoto = listOf(
+            Triple(binding.imageFoto1, binding.botonQuitarFoto1, selectorFoto1),
+            Triple(binding.imageFoto2, binding.botonQuitarFoto2, selectorFoto2),
+            Triple(binding.imageFoto3, binding.botonQuitarFoto3, selectorFoto3)
+        )
+        vistasFoto.forEachIndexed { indice, (imagen, botonQuitar, selector) ->
+            urlsOriginales.getOrNull(indice)?.let { url -> slots[indice] = FotoSlot.Existente(url) }
+            imagen.setOnClickListener {
+                selector.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            }
+            botonQuitar.setOnClickListener {
+                slots[indice] = FotoSlot.Vacio
+                actualizarVistaCasilla(indice)
+            }
+            actualizarVistaCasilla(indice)
+        }
+    }
+
+    private fun registrarSelectorFoto(indice: Int): ActivityResultLauncher<PickVisualMediaRequest> =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            if (uri != null) {
+                val tipoContenido = requireContext().contentResolver.getType(uri)
+                slots[indice] = FotoSlot.Nueva(uri.toString(), tipoContenido)
+                actualizarVistaCasilla(indice)
+            }
+        }
+
+    private fun actualizarVistaCasilla(indice: Int) {
+        val (imagen, botonQuitar, _) = vistasFoto[indice]
+        when (val slot = slots[indice]) {
+            FotoSlot.Vacio -> {
+                imagen.setImageResource(android.R.drawable.ic_menu_gallery)
+                botonQuitar.visibility = View.GONE
+            }
+            is FotoSlot.Existente -> {
+                imagen.load(slot.url)
+                botonQuitar.visibility = View.VISIBLE
+            }
+            is FotoSlot.Nueva -> {
+                imagen.load(slot.uriLocal)
+                botonQuitar.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun mostrarSelectorFecha() {
@@ -123,5 +191,6 @@ class TareaFormFragment : Fragment() {
 
     private companion object {
         const val SIN_FECHA = -1L
+        const val NUMERO_CASILLAS = 3
     }
 }

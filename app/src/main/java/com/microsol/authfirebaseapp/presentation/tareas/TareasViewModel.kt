@@ -3,7 +3,9 @@ package com.microsol.authfirebaseapp.presentation.tareas
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.microsol.authfirebaseapp.data.repository.FirestoreTareaRepositoryImpl
+import com.microsol.authfirebaseapp.data.repository.StorageRepositoryImpl
 import com.microsol.authfirebaseapp.domain.model.Tarea
+import com.microsol.authfirebaseapp.domain.repository.StorageRepository
 import com.microsol.authfirebaseapp.domain.repository.TareaRepository
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,7 +25,8 @@ import kotlinx.coroutines.withTimeout
  */
 class TareasViewModel(
     private val cursoId: String,
-    private val repository: TareaRepository = FirestoreTareaRepositoryImpl()
+    private val repository: TareaRepository = FirestoreTareaRepositoryImpl(),
+    private val storageRepository: StorageRepository = StorageRepositoryImpl()
 ) : ViewModel() {
 
     private val _estado = MutableStateFlow<TareasState>(TareasState.Loading)
@@ -57,11 +60,14 @@ class TareasViewModel(
         }
     }
 
-    /** Elimina la tarea y recarga la lista. */
+    /** Elimina la tarea (y sus fotos en Storage, si tenía) y recarga la lista. */
     fun eliminarTarea(tarea: Tarea) {
         viewModelScope.launch {
             try {
-                withTimeout(TIMEOUT_MS) { repository.eliminarTarea(tarea.id) }
+                withTimeout(TIMEOUT_MS) {
+                    repository.eliminarTarea(tarea.id)
+                    storageRepository.eliminarFotosTarea(tarea.id)
+                }
                 cargarTareas()
             } catch (e: TimeoutCancellationException) {
                 _estado.value = TareasState.Error(MENSAJE_TIMEOUT)

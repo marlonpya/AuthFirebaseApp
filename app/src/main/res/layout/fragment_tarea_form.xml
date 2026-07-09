@@ -59,6 +59,112 @@
             tools:text="15/07/2026" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- Hasta 3 fotos adjuntas: se suben a Storage recién al tocar "Guardar" (ver TareaFormFragment/TareaFormViewModel). -->
+    <TextView
+        android:id="@+id/textFotosAyuda"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/tarea_form_fotos_ayuda"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/inputFechaLimite" />
+
+    <LinearLayout
+        android:id="@+id/contenedorFotos"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textFotosAyuda">
+
+        <FrameLayout
+            android:id="@+id/casillaFoto1"
+            android:layout_width="0dp"
+            android:layout_height="96dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imageFoto1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/colorSurfaceVariant"
+                android:contentDescription="@string/tarea_form_foto_descripcion"
+                android:scaleType="centerCrop"
+                android:src="@android:drawable/ic_menu_gallery" />
+
+            <ImageButton
+                android:id="@+id/botonQuitarFoto1"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="top|end"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/tarea_form_boton_quitar_foto"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:visibility="gone"
+                tools:visibility="visible" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/casillaFoto2"
+            android:layout_width="0dp"
+            android:layout_height="96dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imageFoto2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/colorSurfaceVariant"
+                android:contentDescription="@string/tarea_form_foto_descripcion"
+                android:scaleType="centerCrop"
+                android:src="@android:drawable/ic_menu_gallery" />
+
+            <ImageButton
+                android:id="@+id/botonQuitarFoto2"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="top|end"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/tarea_form_boton_quitar_foto"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:visibility="gone"
+                tools:visibility="visible" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/casillaFoto3"
+            android:layout_width="0dp"
+            android:layout_height="96dp"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imageFoto3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/colorSurfaceVariant"
+                android:contentDescription="@string/tarea_form_foto_descripcion"
+                android:scaleType="centerCrop"
+                android:src="@android:drawable/ic_menu_gallery" />
+
+            <ImageButton
+                android:id="@+id/botonQuitarFoto3"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="top|end"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/tarea_form_boton_quitar_foto"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:visibility="gone"
+                tools:visibility="visible" />
+        </FrameLayout>
+    </LinearLayout>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/botonGuardar"
         android:layout_width="0dp"
@@ -67,7 +173,7 @@
         android:text="@string/tarea_form_boton_guardar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/inputFechaLimite" />
+        app:layout_constraintTop_toBottomOf="@id/contenedorFotos" />
 
     <!-- Visible solo mientras se guarda la tarea en Firestore. -->
     <ProgressBar

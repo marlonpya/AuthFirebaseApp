@@ -41,6 +41,8 @@ firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.r
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
 # --- Firestore (la versión también la fija el BoM) ---
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore" }
+# --- Storage: fotos adjuntas a una tarea (la versión también la fija el BoM) ---
+firebase-storage = { group = "com.google.firebase", name = "firebase-storage" }
 # --- Credential Manager + Sign in with Google (API vigente, reemplaza a GoogleSignInClient) ---
 androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "credentials" }
 androidx-credentials-play-services-auth = { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "credentials" }

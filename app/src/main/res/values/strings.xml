@@ -63,4 +63,7 @@
     <string name="tarea_form_hint_titulo">Título de la tarea</string>
     <string name="tarea_form_hint_fecha_limite">Fecha límite</string>
     <string name="tarea_form_boton_guardar">Guardar</string>
+    <string name="tarea_form_fotos_ayuda">Toca una casilla para agregar una foto (hasta 3)</string>
+    <string name="tarea_form_foto_descripcion">Foto adjunta a la tarea</string>
+    <string name="tarea_form_boton_quitar_foto">Quitar esta foto</string>
 </resources>

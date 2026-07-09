@@ -9,5 +9,6 @@ data class TareaDto(
     val cursoId: String = "",
     val titulo: String = "",
     val completada: Boolean = false,
-    val fechaLimite: Timestamp? = null
+    val fechaLimite: Timestamp? = null,
+    val imagenesUrls: List<String> = emptyList()
 )

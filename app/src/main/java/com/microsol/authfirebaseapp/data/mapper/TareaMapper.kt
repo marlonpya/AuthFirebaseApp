@@ -10,6 +10,7 @@ object TareaMapper {
         cursoId = dto.cursoId,
         titulo = dto.titulo,
         completada = dto.completada,
-        fechaLimite = dto.fechaLimite?.toDate()?.time ?: 0L
+        fechaLimite = dto.fechaLimite?.toDate()?.time ?: 0L,
+        imagenesUrls = dto.imagenesUrls
     )
 }

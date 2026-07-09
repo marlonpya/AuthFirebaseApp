@@ -33,7 +33,7 @@ class FirestoreTareaRepositoryImpl(
             .await()
     }
 
-    override suspend fun crearTarea(cursoId: String, titulo: String, fechaLimite: Long) {
+    override suspend fun crearTarea(cursoId: String, titulo: String, fechaLimite: Long): String {
         val datos = mapOf(
             CAMPO_CURSO_ID to cursoId,
             CAMPO_TITULO to titulo,
@@ -42,7 +42,8 @@ class FirestoreTareaRepositoryImpl(
             // explícito en vez de FieldValue.serverTimestamp() (que sí se usa para fechaCreacion).
             CAMPO_FECHA_LIMITE to Timestamp(Date(fechaLimite))
         )
-        db.collection(FirestoreColecciones.TAREAS).add(datos).await()
+        val referencia = db.collection(FirestoreColecciones.TAREAS).add(datos).await()
+        return referencia.id
     }
 
     override suspend fun actualizarTarea(tareaId: String, titulo: String, fechaLimite: Long) {
@@ -51,6 +52,13 @@ class FirestoreTareaRepositoryImpl(
             CAMPO_FECHA_LIMITE to Timestamp(Date(fechaLimite))
         )
         db.collection(FirestoreColecciones.TAREAS).document(tareaId).update(datos).await()
+    }
+
+    override suspend fun actualizarImagenesUrls(tareaId: String, imagenesUrls: List<String>) {
+        db.collection(FirestoreColecciones.TAREAS)
+            .document(tareaId)
+            .update(CAMPO_IMAGENES_URLS, imagenesUrls)
+            .await()
     }
 
     override suspend fun eliminarTarea(tareaId: String) {
@@ -62,5 +70,6 @@ class FirestoreTareaRepositoryImpl(
         const val CAMPO_COMPLETADA = "completada"
         const val CAMPO_TITULO = "titulo"
         const val CAMPO_FECHA_LIMITE = "fechaLimite"
+        const val CAMPO_IMAGENES_URLS = "imagenesUrls"
     }
 }

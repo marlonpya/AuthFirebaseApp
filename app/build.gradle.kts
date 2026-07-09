@@ -58,6 +58,8 @@ dependencies {
     implementation(libs.firebase.auth)
     // Firestore: base de datos del feature de Cursos/Tareas (misma versión fijada por el BoM).
     implementation(libs.firebase.firestore)
+    // Storage: fotos adjuntas a una tarea (misma versión fijada por el BoM).
+    implementation(libs.firebase.storage)
 
     // Credential Manager + Sign in with Google (API vigente que recomienda Firebase).
     implementation(libs.androidx.credentials)

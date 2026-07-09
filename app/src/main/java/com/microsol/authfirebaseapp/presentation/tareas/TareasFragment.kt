@@ -62,7 +62,8 @@ class TareasFragment : Fragment() {
                     cursoId = args.cursoId,
                     tareaId = tarea.id,
                     titulo = tarea.titulo,
-                    fechaLimite = tarea.fechaLimite
+                    fechaLimite = tarea.fechaLimite,
+                    imagenesUrls = tarea.imagenesUrls.toTypedArray()
                 )
                 findNavController().navigate(accion)
             },

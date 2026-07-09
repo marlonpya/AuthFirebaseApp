@@ -11,5 +11,6 @@ data class Tarea(
     val cursoId: String,
     val titulo: String,
     val completada: Boolean,
-    val fechaLimite: Long
+    val fechaLimite: Long,
+    val imagenesUrls: List<String> = emptyList()
 )

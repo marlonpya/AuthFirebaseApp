@@ -13,11 +13,14 @@ interface TareaRepository {
     /** Alterna si la tarea está completada. */
     suspend fun actualizarCompletada(tareaId: String, completada: Boolean)
 
-    /** Crea una tarea nueva asociada a [cursoId]. completada empieza en false. */
-    suspend fun crearTarea(cursoId: String, titulo: String, fechaLimite: Long)
+    /** Crea una tarea nueva asociada a [cursoId]. completada empieza en false. Devuelve el id generado. */
+    suspend fun crearTarea(cursoId: String, titulo: String, fechaLimite: Long): String
 
     /** Actualiza título/fechaLimite de una tarea existente. No modifica completada. */
     suspend fun actualizarTarea(tareaId: String, titulo: String, fechaLimite: Long)
+
+    /** Reemplaza la lista de URLs de fotos adjuntas (subidas antes con StorageRepository). */
+    suspend fun actualizarImagenesUrls(tareaId: String, imagenesUrls: List<String>)
 
     suspend fun eliminarTarea(tareaId: String)
 }
