@@ -43,6 +43,7 @@ class HomeFragment : Fragment() {
         mostrarDatosUsuario()
         binding.botonCerrarSesion.setOnClickListener { cerrarSesion() }
         binding.botonVerCursos.setOnClickListener { irACursos() }
+        binding.botonVerNotificaciones.setOnClickListener { irANotificaciones() }
     }
 
     /** Lee el usuario actual de Firebase y pinta su nombre, correo y foto en pantalla. */
@@ -89,6 +90,12 @@ class HomeFragment : Fragment() {
     /** Navega al feature de Cursos/Tareas (Firestore, en capas MVVM + Repository). */
     private fun irACursos() {
         val accion = HomeFragmentDirections.actionHomeToCursos()
+        findNavController().navigate(accion)
+    }
+
+    /** Navega al feature de Notificaciones (FCM + Room, en capas MVVM + Repository). */
+    private fun irANotificaciones() {
+        val accion = HomeFragmentDirections.actionHomeToNotificaciones()
         findNavController().navigate(accion)
     }
 

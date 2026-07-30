@@ -17,6 +17,7 @@
     <string name="home_boton_cerrar_sesion">Cerrar sesión</string>
     <string name="home_foto_descripcion">Foto de perfil del usuario</string>
     <string name="home_boton_ver_cursos">Ver mis cursos</string>
+    <string name="home_boton_ver_notificaciones">Ver notificaciones</string>
 
     <!-- Mensajes -->
     <string name="msg_completa_campos">Ingresa correo y contraseña</string>
@@ -66,4 +67,20 @@
     <string name="tarea_form_fotos_ayuda">Toca una casilla para agregar una foto (hasta 3)</string>
     <string name="tarea_form_foto_descripcion">Foto adjunta a la tarea</string>
     <string name="tarea_form_boton_quitar_foto">Quitar esta foto</string>
+
+    <!-- Pantalla de Notificaciones (Firebase Cloud Messaging + persistencia local con Room) -->
+    <string name="notificaciones_titulo">Notificaciones</string>
+    <string name="notificaciones_vacio">Todavía no has recibido notificaciones</string>
+    <string name="notificaciones_accion_eliminar">Eliminar notificación</string>
+    <string name="notificaciones_no_leida_descripcion">No leída</string>
+    <string name="notificaciones_eliminar_titulo">Eliminar notificación</string>
+    <string name="notificaciones_eliminar_mensaje">¿Seguro que quieres eliminar esta notificación? Esta acción no se puede deshacer.</string>
+    <string name="notificaciones_eliminar_confirmar">Eliminar</string>
+    <string name="notificaciones_eliminar_cancelar">Cancelar</string>
+    <string name="notificaciones_permiso_denegado">Sin el permiso de notificaciones no verás los avisos en la barra de estado (igual se guardan en la lista).</string>
+    <!-- Título de reserva si el mensaje FCM no trae uno (p. ej. un mensaje solo con payload data). -->
+    <string name="notificaciones_titulo_default">Notificación</string>
+    <!-- Canal de notificaciones (obligatorio desde Android 8). -->
+    <string name="notificaciones_canal_nombre">Notificaciones de la app</string>
+    <string name="notificaciones_canal_descripcion">Avisos que llegan por Firebase Cloud Messaging</string>
 </resources>

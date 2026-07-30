@@ -22,6 +22,13 @@ googleServices = "4.4.4"
 # --- Dependencias del feature de Cursos/Tareas (Firestore + MVVM) ---
 recyclerview = "1.4.0"
 lifecycleViewmodel = "2.9.0"
+# --- Feature de Notificaciones (Room para persistencia local + FCM) ---
+room = "2.8.4"
+# KSP (procesador de anotaciones de Room). AGP 9 usa su Kotlin INTEGRADO (no se declara un plugin de
+# Kotlin aparte): esta versión de KSP es la que casa con ese Kotlin integrado (KGP 2.2.10) y soporta
+# el modo integrado. Ojo: NO subir a 2.2.20-x (para Kotlin 2.2.20) porque no casaría con el Kotlin
+# integrado y KSP fallaría con "no es compatible con el Kotlin integrado de AGP".
+ksp = "2.2.10-2.0.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -57,8 +64,16 @@ coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodel" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleViewmodel" }
+# --- Notificaciones: Room (persistencia local de las notificaciones) ---
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+# room-compiler se aplica con ksp(...) para generar el código de los DAO en tiempo de compilación.
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+# --- Notificaciones: Firebase Cloud Messaging (la versión la fija el BoM) ---
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 androidx-navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
 google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
+# KSP: procesador de anotaciones (genera los DAO de Room). Ver nota de versión arriba.
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

@@ -40,6 +40,10 @@
         <action
             android:id="@+id/action_home_to_cursos"
             app:destination="@id/cursosFragment" />
+
+        <action
+            android:id="@+id/action_home_to_notificaciones"
+            app:destination="@id/notificacionesFragment" />
     </fragment>
 
     <!--
@@ -125,5 +129,16 @@
             app:nullable="true"
             android:defaultValue="@null" />
     </fragment>
+
+    <!--
+        Feature de Notificaciones: en capas (MVVM + Repository) igual que Cursos/Tareas, pero la
+        persistencia es LOCAL con Room (no Firestore). Las notificaciones llegan por Firebase Cloud
+        Messaging (ver messaging/AppMessagingService) y solo se pueden leer/eliminar.
+    -->
+    <fragment
+        android:id="@+id/notificacionesFragment"
+        android:name="com.microsol.authfirebaseapp.presentation.notificaciones.NotificacionesFragment"
+        android:label="@string/notificaciones_titulo"
+        tools:layout="@layout/fragment_notificaciones" />
 
 </navigation>

@@ -6,4 +6,6 @@ plugins {
     alias(libs.plugins.androidx.navigation.safeargs) apply false
     // Plugin de Google Services: procesa google-services.json y genera R.string.default_web_client_id.
     alias(libs.plugins.google.gms.google.services) apply false
+    // KSP: procesador de anotaciones que usa Room para generar el código de los DAO.
+    alias(libs.plugins.ksp) apply false
 }

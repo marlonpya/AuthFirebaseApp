@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.androidx.navigation.safeargs)
     // Google Services: lee google-services.json y crea R.string.default_web_client_id (Web Client ID).
     alias(libs.plugins.google.gms.google.services)
+    // KSP: genera las implementaciones de los DAO de Room (feature de Notificaciones).
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -60,6 +62,8 @@ dependencies {
     implementation(libs.firebase.firestore)
     // Storage: fotos adjuntas a una tarea (misma versión fijada por el BoM).
     implementation(libs.firebase.storage)
+    // Cloud Messaging: notificaciones push del feature de Notificaciones (misma versión del BoM).
+    implementation(libs.firebase.messaging)
 
     // Credential Manager + Sign in with Google (API vigente que recomienda Firebase).
     implementation(libs.androidx.credentials)
@@ -78,6 +82,11 @@ dependencies {
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+
+    // Room: persistencia local de las notificaciones (feature de Notificaciones).
+    // room-runtime ya trae el soporte de corrutinas/Flow; room-compiler se procesa con KSP.
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)

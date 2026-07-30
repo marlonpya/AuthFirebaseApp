@@ -11,11 +11,25 @@ Ver `gradle/libs.versions.toml` y `app/build.gradle.kts` para la lista completa.
 - Kotlin + AGP `9.2.1`, `compileSdk 37`, `minSdk 24`, `targetSdk 36`.
 - Navigation Component `2.10.0-alpha05` — **no bajar a la 2.9.x estable**: falla con
   "safeargs plugin must be used with android plugin" por incompatibilidad con AGP 9.x.
-- Firebase BoM `34.4.0` (fija las versiones de `firebase-auth` y `firebase-firestore`).
+- Firebase BoM `34.4.0` (fija las versiones de `firebase-auth`, `firebase-firestore`,
+  `firebase-storage` y `firebase-messaging`).
 - Credential Manager `1.5.0` + `googleid` (API vigente de "Sign in with Google"; **no** se usa el
   `GoogleSignInClient` obsoleto).
 - Coroutines `1.10.1`, Coil `2.7.0` (carga de imágenes), ViewBinding habilitado
   (`buildFeatures.viewBinding = true`), sin Compose.
+- Room `2.8.4` (persistencia local del feature de Notificaciones) procesado con **KSP**. Room es la
+  **única** base de datos local; Cursos/Tareas siguen en Firestore (nube).
+- **Kotlin: se usa el "integrado" de AGP 9** (KGP `2.2.10`), NO se declara un plugin
+  `org.jetbrains.kotlin.android` aparte (aplicarlo falla en AGP 9 con `ApplicationExtensionImpl ...
+  cannot be cast to ... BaseExtension`, porque AGP 9 solo usa el DSL nuevo). Por eso **KSP tiene que
+  ser la versión que casa con ese Kotlin integrado: `2.2.10-2.0.2`** (`ksp` en `libs.versions.toml`).
+  No subir KSP a `2.2.20-x` (para Kotlin 2.2.20): fallaría con "KSP is not compatible with Android
+  Gradle Plugin's built-in Kotlin". Si algún día se sube AGP y cambia su Kotlin integrado, alinear
+  `ksp` a la versión correspondiente. **No** hace falta `android.builtInKotlin=false` ni fijar
+  `jvmTarget` a mano: el Kotlin integrado ya lo alinea con `compileOptions` (Java 11). Sí es
+  necesario **`android.disallowKotlinSourceSets=false`** en `gradle.properties`: KSP registra sus
+  fuentes generadas con `kotlin.sourceSets`, que el Kotlin integrado bloquea por defecto; este flag
+  lo permite (lo indica el propio AGP en el error "Using kotlin.sourceSets DSL ... not allowed").
 - Sin DI framework (no hay Hilt/Koin): las factories de ViewModel se escriben a mano.
 
 ## Cómo compilar y correr
@@ -82,17 +96,38 @@ com.microsol.authfirebaseapp/
 ├── ui/
 │   ├── login/LoginFragment.kt
 │   └── home/HomeFragment.kt
+├── messaging/
+│   └── AppMessagingService.kt          (FirebaseMessagingService: onNewToken + onMessageReceived)
 ├── domain/
-│   ├── model/{Curso.kt, Tarea.kt}
-│   └── repository/{CursoRepository.kt, TareaRepository.kt}      (interfaces)
+│   ├── model/{Curso.kt, Tarea.kt, Notificacion.kt}
+│   └── repository/{CursoRepository.kt, TareaRepository.kt, NotificacionRepository.kt}  (interfaces)
 ├── data/
 │   ├── model/{CursoDto.kt, TareaDto.kt}
-│   ├── mapper/{CursoMapper.kt, TareaMapper.kt}
-│   └── repository/{FirestoreCursoRepositoryImpl.kt, FirestoreTareaRepositoryImpl.kt}
+│   ├── local/{AppDatabase.kt, NotificacionDao.kt, NotificacionEntity.kt}   (Room)
+│   ├── mapper/{CursoMapper.kt, TareaMapper.kt, NotificacionMapper.kt}
+│   └── repository/{FirestoreCursoRepositoryImpl.kt, FirestoreTareaRepositoryImpl.kt, RoomNotificacionRepositoryImpl.kt}
 └── presentation/
     ├── cursos/{CursosViewModel, CursosState, CursosViewModelFactory, CursosFragment, CursosAdapter}
-    └── tareas/{TareasViewModel, TareasState, TareasViewModelFactory, TareasFragment, TareasAdapter}
+    ├── tareas/{TareasViewModel, TareasState, TareasViewModelFactory, TareasFragment, TareasAdapter}
+    └── notificaciones/{NotificacionesViewModel, NotificacionesState, NotificacionesViewModelFactory, NotificacionesFragment, NotificacionesAdapter}
 ```
+
+### 3. Notificaciones — en capas (MVVM + Repository) pero con Room local + FCM
+
+Sigue el **mismo patrón en capas que Cursos/Tareas** (no es un tercer paradigma), con dos diferencias:
+
+- La fuente de datos es **local con Room** (`data/local/`), no Firestore. `NotificacionRepository`
+  expone `observarNotificaciones(): Flow<List<Notificacion>>` (reactivo: Room reemite la lista al
+  insertar/leer/eliminar), y `NotificacionesViewModel` se suscribe en su `init` (no hay un
+  `cargar()` que llame el Fragment). `NotificacionesViewModelFactory` **necesita un `Context`** para
+  construir la BD, a diferencia de las otras factories.
+- Las notificaciones llegan por **Firebase Cloud Messaging**: `messaging/AppMessagingService`
+  (`onMessageReceived`) las persiste en Room y las muestra en la barra. Para que se guarden también
+  con la app en segundo plano se usan mensajes **data-only** (título/cuerpo en el payload `data`),
+  que siempre disparan `onMessageReceived`. `MainActivity.onCreate` crea el `NotificationChannel`
+  (API 26+) y `NotificacionesFragment` pide el permiso runtime `POST_NOTIFICATIONS` (API 33+).
+- Alcance de escritura: solo **marcar como leída** (toggle `leida`) y **eliminar**. No se crean ni
+  editan notificaciones desde la app.
 
 ## Modelo de datos en Firestore
 
